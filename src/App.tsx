@@ -31,8 +31,6 @@ function App(props:AppPropsType) {
         <div className='app-wrapper'>
             <Header/>
             <Navbar/>
-
-            ghng
             <div className='app-wrapper-content'>
                 <Route path='/profile' render={()=><Profile NewPostTextChanger={props.NewPostTextChanger}
                                                             newPostText={props.newPostText}
