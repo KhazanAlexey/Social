@@ -30,7 +30,6 @@ function App(props:AppPropsType) {
         <BrowserRouter>
         <div className='app-wrapper'>
             <Header/>
-иии
             <Navbar/>
             <div className='app-wrapper-content'>
                 <Route path='/profile' render={()=><Profile NewPostTextChanger={props.NewPostTextChanger}
