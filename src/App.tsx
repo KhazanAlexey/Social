@@ -1,50 +1,46 @@
 import React from 'react';
 import './App.css';
 
-import { DialogType, MessageType, PostType,  StoreType, store} from "./redux/state";
+import {DialogType, MessageType, PostType, StoreType, store, ActionsTypes} from "./redux/store";
 import Header from "./Components/Header/Header";
 import {Navbar} from "./Components/Navbar/Navbar";
 import {Profile} from "./Components/Profile/Profile";
-import {Dialogs} from "./Components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from 'react-router-dom';
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
+import UsersContainer from './Components/Users/Users-container';
+import {DialogsHook} from "./Components/Dialogs/DialogsHook";
 
-type AppPropsType={
-    posts: Array<PostType>
-    dialogs : Array<DialogType>
-    messages: Array<MessageType>
-    addPost:()=>void
-    newPostText:string
-    NewPostTextChanger:(post:string)=>void
-    NewDialogMessage:string
-    addMessage: ()=>void
-    store: StoreType
-    NewMesageChanger:(post:string)=>void
+type AppPropsType = {
+    // posts: Array<PostType>
+    // dialogs: Array<DialogType>
+    // messages: Array<MessageType>
+    // newPostText: string
+    // NewDialogMessage: string
+    // dispatch: (action: ActionsTypes) => void
 
 }
-function App(props:AppPropsType) {
 
-
+function App(props: AppPropsType) {
 
 
     return (
         <BrowserRouter>
-        <div className='app-wrapper'>
-            <Header/>
-            <Navbar/>
-            <div className='app-wrapper-content'>
-                <Route path='/profile' render={()=><Profile NewPostTextChanger={props.NewPostTextChanger}
-                                                            newPostText={props.newPostText}
-                                                            addPost={props.addPost}
-                                                            posts={props.posts}/>} />
-                <Route path='/dialogs' render={()=> <Dialogs addMessage={props.addMessage}
-                                                             NewDialogMessage={props.NewDialogMessage}
-                                                             NewMesageChanger={props.NewMesageChanger}
-                                                             dialogs={props.dialogs}
-                                                             messages={props.messages}/>} />
+            <div className='app-wrapper'>
+                <Header/>
+                <Navbar/>
+                <div className='app-wrapper-content'>
+                    <Route path='/profile' render={() => <Profile
+                       />}/>
+                       <Route path='/dialogsHook' render={() => <DialogsHook
+                       />}/>
+                    <Route path='/dialogs' render={() => <DialogsContainer
+                    />}/>
+                    <Route path='/users' render={()=><UsersContainer/>}/>
+
+                </div>
             </div>
-        </div>
-            </BrowserRouter>
-            )
+        </BrowserRouter>
+    )
 }
 
 export default App;

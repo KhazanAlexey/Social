@@ -1,21 +1,20 @@
 import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
-import {DialogType, MessageType} from "../../redux/state";
+import {ActionsTypes, DialogType, MessageType} from "../../redux/store";
 import {DialogItem} from "./DialogsItem/DialogsItem";
 import {Message} from "./Messages/Messages";
 import {Simulate} from "react-dom/test-utils";
-import {RerenderEntireTree} from "../../index";
 
-type DialogsPageType = {
+type DialogsPagesType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    NewMesageChanger:(post:string)=>void
     NewDialogMessage:string
-    addMessage: ()=> void
+    onclickHandler:()=>void
+    changeHandler:(text:string)=>void
 }
 
 
-export const Dialogs: React.FC<DialogsPageType> = (props) => {
+export const Dialogs: React.FC<DialogsPagesType> = (props) => {
 
 
 
@@ -23,12 +22,12 @@ export const Dialogs: React.FC<DialogsPageType> = (props) => {
     let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
     let messagesElement = props.messages.map(m => <Message id={m.id}  message={m.message}/>)
 const onclickHandler=()=>{
-       props.addMessage()
+       props.onclickHandler()
 }
   const changeHandler=(e:ChangeEvent<HTMLTextAreaElement>)=>{
         if( e.currentTarget)
         {
-            props.NewMesageChanger(e.currentTarget.value)
+            props.changeHandler(e.currentTarget.value)
         }
     }
 

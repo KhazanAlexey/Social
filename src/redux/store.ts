@@ -1,6 +1,8 @@
 /*import {RerenderEntireTree} from "../index";*/
 
 
+import {profileReducer} from "./profile-reducer";
+import {dialogReducer} from "./dialog-reducer";
 let onChange=()=>{
     console.log("state changed")
 }
@@ -34,7 +36,7 @@ export type SidebarType={
 
 }
 
-export type RootStateType={
+ type RootStateType={
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
     sidebar: SidebarType
@@ -107,15 +109,35 @@ export function NewMesageChanger (text:string){
 
 export type StoreType={
     _state: RootStateType
-    NewPostTextChanger:(text:string)=>void
+  /*  NewPostTextChanger:(text:string)=>void
     addPost:()=>void
     addMessage:()=>void
-    NewMesageChanger: (text:string)=>void
+    NewMesageChanger: (text:string)=>void*/
     getState:()=>RootStateType
     _onChange:()=>void
     subscribe:(callback:()=>void)=>void
+    dispatch:(action:ActionsTypes)=>void
 
 }
+export type AddPostActionType = {
+    type: "ADDPOST"
+}
+export type UpdateTextPost = {
+    type: "CHANGEPOSTTEXT"
+    text: string
+}
+export type AddMessageActionType = {
+    type: "ADDMESSAGE"
+}
+export type UpdateTextMessage = {
+    type: "CHANGEMESSAGE"
+    text: string
+}
+
+export type ActionsTypes = AddPostActionType | UpdateTextPost | AddMessageActionType | UpdateTextMessage
+
+
+
 export const store: StoreType={
     _state: {
         profilePage: {
@@ -153,7 +175,7 @@ export const store: StoreType={
         sidebar: {
 
         }
-    },
+    },/*
  NewPostTextChanger(text:string) {
         this._state.profilePage.newPostText=text
 
@@ -176,10 +198,15 @@ NewMesageChanger (text:string){
         this._state.dialogsPage.NewDialogMessage=text
     this._onChange()
 
-},
+},*/
     _onChange(){
         console.log("state chnged")
 
+    },
+    dispatch(action){
+        debugger
+        this._state.profilePage=profileReducer( this._state.profilePage,action)
+        this._state.dialogsPage=dialogReducer(this._state.dialogsPage,action)
     },
 
     getState(){

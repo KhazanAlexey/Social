@@ -1,5 +1,5 @@
-import React from 'react';
-import {MessageType} from "./state";
+import React, {ReactType} from 'react';
+import {MessageType} from "./store";
 
 export type PostType = {
     id: number
@@ -11,6 +11,10 @@ export type ProfilePageType = {
     posts: Array<PostType>
     newPostText: string
 }
+const ADDPOST = "ADDPOST"
+const CHANGEPOSTTEXT = "CHANGEPOSTTEXT"
+const ADDMESSAGE = "ADDMESSAGE"
+const CHANGEMESSAGE = "CHANGEMESSAGE"
 
 let initialState: ProfilePageType = {
 
@@ -26,29 +30,33 @@ let initialState: ProfilePageType = {
     newPostText: "it kamasyrtaaa"
 
 }
+export type returnStateProfilereducerType = typeof initialState
 
 export type AddPostActionType = {
-    type: "ADDPOST"
+    type: typeof ADDPOST
 }
 export type UpdateTextPost = {
-    type: "CHANGEPOSTTEXT"
-    text: string
-}
-export type AddMessageActionType = {
-    type: "ADDMESSAGE"
-}
-export type UpdateTextMessage = {
-    type: "CHANGEMESSAGE"
+    type: typeof CHANGEPOSTTEXT
     text: string
 }
 
+
+export type AddMessageActionType = {
+    type: typeof ADDMESSAGE
+}
+export type UpdateTextMessage = {
+    type: typeof CHANGEMESSAGE
+    text: string
+}
 export type ActionsTypes = AddPostActionType | UpdateTextPost | AddMessageActionType | UpdateTextMessage
+
+// export type ActionsTypes = ReturnType<typeof AddPostAC> | ReturnType<typeof ChangePostTextAС>
 
 
 export const AddPostAC = () => ({type: "ADDPOST"} as const)
-export const ChangePostTextAС = (text: string) => ({type: "CHANGEPOSTTEXT", text: text} as const)
+export const ChangePostTextAC = (text: string) => ({type: "CHANGEPOSTTEXT", text: text} as const)
 
-export function profileReducer(state = initialState, action: ActionsTypes) {
+export function profileReducer(state = initialState, action: ActionsTypes): returnStateProfilereducerType {
     switch (action.type) {
         case "ADDPOST":
             const NewPost: PostType = {
@@ -56,12 +64,13 @@ export function profileReducer(state = initialState, action: ActionsTypes) {
                 message: state.newPostText,
                 likeCounts: 20
             }
-            state.posts.push(NewPost)
-            state.newPostText = ""
-            return state
+            return {
+                ...state, posts: [...state.posts, NewPost],
+                newPostText:""
+            }
         case "CHANGEPOSTTEXT":
-            state.newPostText = action.text
-            return state
+            return {
+                ...state,newPostText:action.text}
         default:
             return state
     }
@@ -69,5 +78,12 @@ export function profileReducer(state = initialState, action: ActionsTypes) {
 }
 
 
-
-
+//
+// export const addPost=()=>{
+//     return async (dispatch:any)=>dispatch(AddPostAC())
+// }
+// export const newposttextHandler=(text: string) => {
+//     return async (dispatch:any)=>{
+//     dispatch(ChangePostTextAС(text))}
+// }
+//
