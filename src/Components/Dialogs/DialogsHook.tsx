@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AddMessageTypeAC, ChangeMessageAc, NewMessageType} from "../../redux/dialog-reducer";
 import {RootState} from "../../redux/redux-store";
 import Axios from "axios";
-import {setTotalCount, SetUsersAC} from "../../redux/User-reducer";
+import {setTotalCount, SetUsers, userType} from "../../redux/User-reducer";
 
 type DialogsPagesType = {
     /*dialogs: Array<DialogType>
@@ -26,19 +26,16 @@ export function DialogsHook(props: any) {
     const messages = useSelector<RootState, Array<MessageType>>(state => state.dialogsPage.messages)
 const currentPage=useSelector<RootState,number>(state=> state.usersPage.currentPage)
     const pageSize=useSelector<RootState,number>(state=> state.usersPage.pageSize)
-
-/*
-    useEffect= (()=>{
+const users= useSelector<RootState,any>(state=> state.usersPage.users)
+   /* useEffect (()=>{
         Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
-
-        .then((res) => {
+        .then(res => {
             dispatch(SetUsersAC(res.data.items))
             dispatch(setTotalCount(res.data.totalCount))
 
-        })
+        },[])
 
-    })
-*/
+    })*/
 
     let dialogsElements = dialogs.map(d =>
         <DialogItem name={d.name} id={d.id}/>
@@ -61,7 +58,7 @@ const currentPage=useSelector<RootState,number>(state=> state.usersPage.currentP
         <div className={s.dialogsitem}>
 
             {dialogsElements}
-
+            {users}
         </div>
         <div className={s.messages}>
 

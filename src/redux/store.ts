@@ -205,7 +205,6 @@ NewMesageChanger (text:string){
     },
     dispatch(action){
         debugger
-        this._state.profilePage=profileReducer( this._state.profilePage,action)
         this._state.dialogsPage=dialogReducer(this._state.dialogsPage,action)
     },
 

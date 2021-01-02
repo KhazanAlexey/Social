@@ -9,13 +9,14 @@ type ProfilePropsType={
     // posts:Array<PostType>
     // newPostText:string
     // dispatch:(action:ActionsTypes)=>void
+    profile:any
 
 }
 export const Profile: React.FC<ProfilePropsType>=(props)=> {
 
 
 return <div className={s.content}>
-    <ProfileInfo/>
+    <ProfileInfo profile={props.profile}/>
     <MypostsConrainer/>
 </div>
 

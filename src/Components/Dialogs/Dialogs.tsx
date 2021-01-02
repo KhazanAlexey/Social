@@ -19,8 +19,8 @@ export const Dialogs: React.FC<DialogsPagesType> = (props) => {
 
 
 
-    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-    let messagesElement = props.messages.map(m => <Message id={m.id}  message={m.message}/>)
+    let dialogsElements = props.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
+    let messagesElement = props.messages.map(m => <Message  key={m.id} id={m.id}  message={m.message}/>)
 const onclickHandler=()=>{
        props.onclickHandler()
 }

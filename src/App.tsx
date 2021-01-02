@@ -1,26 +1,17 @@
 import React from 'react';
 import './App.css';
 
-import {DialogType, MessageType, PostType, StoreType, store, ActionsTypes} from "./redux/store";
 import Header from "./Components/Header/Header";
 import {Navbar} from "./Components/Navbar/Navbar";
-import {Profile} from "./Components/Profile/Profile";
 import {BrowserRouter, Route} from 'react-router-dom';
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import UsersContainer from './Components/Users/Users-container';
 import {DialogsHook} from "./Components/Dialogs/DialogsHook";
+import ProfileContainerWithUrl from "./Components/Profile/Profile-Container";
 
-type AppPropsType = {
-    // posts: Array<PostType>
-    // dialogs: Array<DialogType>
-    // messages: Array<MessageType>
-    // newPostText: string
-    // NewDialogMessage: string
-    // dispatch: (action: ActionsTypes) => void
 
-}
 
-function App(props: AppPropsType) {
+function App(props:any) {
 
 
     return (
@@ -29,7 +20,7 @@ function App(props: AppPropsType) {
                 <Header/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile' render={() => <Profile
+                    <Route path='/profile/:userId?' render={() => <ProfileContainerWithUrl
                        />}/>
                        <Route path='/dialogsHook' render={() => <DialogsHook
                        />}/>

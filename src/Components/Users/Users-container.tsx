@@ -1,17 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
-import Users from "./Users";
 import {
     FollowAc,
-    SetCurrentPageAc,
+    SetCurrentPageAc, setToogle,
     setTotalCount,
-    SetUsersAC,
+    SetUsers,
     UnfollowAc,
     usersTypeRes
 } from "../../redux/User-reducer";
 import {RootState} from "../../redux/redux-store";
 import UsersClass from "./UsersClass";
 import Axios, {AxiosResponse, AxiosError} from 'axios';
+import {Prealoader} from "../common/Preloader";
 
 
 
@@ -24,17 +24,19 @@ type MSTPType = {
     pageSize: number
     totalCount: number
     currentPage: number
+    isFetching: boolean
 
 }
 type MDTPType = {
     follow: (id: string) => void
     unfollow: (id: string) => void
     setUsers: (users: any) => void
-    setCurrentPage: (page:number)=>void
-    setTotalCount: (count:number)=>void
+    setCurrentPage: (page: number) => void
+    setTotalCount: (count: number) => void
+    setToogle: (isFetching: boolean) => void
+
 
 }
-
 
 
 type propstype = {
@@ -47,15 +49,20 @@ type propstype = {
     currentPage: number
     setCurrentPage: (page: number) => void
     setTotalCount: (count:number)=> void
+    isFetching: boolean
+    setToogle: (isFetching: boolean) => void
 }
 
 
 class UsersContainer extends React.Component<propstype, any> {
     componentDidMount() {
+        this.props.setToogle(true)
 
         Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
 
             .then((res) => {
+                //isFetching setToogle
+                this.props.setToogle(false)
                 this.props.setUsers(res.data.items)
                 this.props.setTotalCount(res.data.totalCount)
 
@@ -66,11 +73,10 @@ class UsersContainer extends React.Component<propstype, any> {
 
     onPageChanged = (p: number) => {
         this.props.setCurrentPage(p)
-
-
+        this.props.setToogle(true)
         Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`)
-
             .then((res) => {
+                this.props.setToogle(false)
                 this.props.setUsers(res.data.items)
 
             })
@@ -79,34 +85,32 @@ class UsersContainer extends React.Component<propstype, any> {
     render() {
 
 
-        return <div>
-            <UsersClass users={this.props.users}
-                        onPageChanged={this.onPageChanged}
-                        follow={this.props.follow}
-                        unfollow={this.props.follow}
-                        setUsers={this.props.setUsers}
-                        pageSize={this.props.pageSize}
-                        totalCount={this.props.totalCount}
-                        currentPage={this.props.currentPage}
-                        setCurrentPage={this.props.setCurrentPage}
-                        setTotalCount={this.props.setTotalCount}
-            />
+        return  <>
+            {this.props.isFetching? <Prealoader />:  <div>
+                <UsersClass users={this.props.users}
+                            onPageChanged={this.onPageChanged}
+                            follow={this.props.follow}
+                            unfollow={this.props.follow}
+                            setUsers={this.props.setUsers}
+                            pageSize={this.props.pageSize}
+                            totalCount={this.props.totalCount}
+                            currentPage={this.props.currentPage}
+                            setCurrentPage={this.props.setCurrentPage}
+                            setTotalCount={this.props.setTotalCount}
+                />
 
 
 
 
 
 
-        </div>
+            </div>}
+
+            </>
     }
 
 
 }
-
-
-
-
-
 
 
 
@@ -115,30 +119,18 @@ const MSTP = (state: RootState) => {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalCount: state.usersPage.totalCount,
-        currentPage: state.usersPage.currentPage
+        currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching
 
     }
 }
-const MDTP = (dispatch: any) => ({
-
-        follow: (id: string) => {
-            dispatch(FollowAc(id))
-        },
-        unfollow: (id: string) => {
-            dispatch(UnfollowAc(id))
-        },
-        setUsers: (users: any) => {
-            dispatch(SetUsersAC(users))
-        },
-        setCurrentPage: (page:number)=>{
-            dispatch(SetCurrentPageAc(page))
-        },
-        setTotalCount: (count:number)=>{
-            dispatch(setTotalCount(count))
-        }
-
-    }
-)
 
 
-export default connect<MSTPType, MDTPType, {}, RootState>(MSTP, MDTP)(UsersContainer)
+
+export default connect<MSTPType, MDTPType, {}, RootState>(MSTP,
+    {follow:FollowAc  ,
+        unfollow:UnfollowAc,
+        setUsers:SetUsers,
+        setCurrentPage:SetCurrentPageAc,
+        setTotalCount:setTotalCount,
+        setToogle:setToogle})(UsersContainer)

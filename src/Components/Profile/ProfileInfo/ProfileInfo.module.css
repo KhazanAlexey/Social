@@ -6,3 +6,7 @@
 .description {
     padding: 10px;
 }
+.description img{
+    width: 100px;
+    height: 100px;
+}

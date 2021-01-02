@@ -3,8 +3,12 @@ const UNFOLLOW = "UNFOLLOW"
 const SETUSERS = "SETUSERS"
 const SETPAGE = "SETAPGE"
 const SETTOTALCOUNT= "SETTOTALCOUNT"
+const TOOGLE_IS_FETCHING= "TOOGLEISFETCHING"
 
-
+type SETTOOGLEType={
+    type: typeof TOOGLE_IS_FETCHING
+    isFetching: boolean
+}
 type SETTOTALCOUNTType={
     type: typeof SETTOTALCOUNT
     count:number
@@ -30,13 +34,15 @@ const initialState: inittype = {
     users: [],
     pageSize: 5,
     totalCount: 100,
-    currentPage: 2
+    currentPage: 2,
+    isFetching: true
 }
 export type inittype = {
     users: Array<usersTypeRes>
     pageSize: number
     totalCount: number
     currentPage: number
+    isFetching: boolean
 }
 export type usersTypeRes = {
 
@@ -73,8 +79,7 @@ let initialStatetype2 = {
     followingProgress: [] as Array<number>
 }
 let initialStateType = typeof initialStatetype2
-export type ActionsTypes = FOLLOWType | UNFOLLOWType | SETUSERSType | SETPAGEType |SETTOTALCOUNTType
-
+export type ActionsTypes = FOLLOWType | UNFOLLOWType | SETUSERSType | SETPAGEType |SETTOTALCOUNTType | SETTOOGLEType
 // export type ActionsTypes = ReturnType<typeof AddPostAC> | ReturnType<typeof ChangePostTextAС>
 
 export const SetCurrentPageAc = (page: number): SETPAGEType =>
@@ -83,10 +88,12 @@ export const FollowAc = (id: string): FOLLOWType =>
     ({type: FOLLOW, id} as const)
 export const UnfollowAc = (id: string): UNFOLLOWType =>
     ({type: UNFOLLOW, id} as const)
-export const SetUsersAC = (users: any): SETUSERSType =>
+export const SetUsers = (users: any): SETUSERSType =>
     ({type: SETUSERS, users})
 export const setTotalCount= (count:number) =>
     ({type: SETTOTALCOUNT, count} as const)
+export const setToogle= (isFetching:boolean)=>
+    ({type: TOOGLE_IS_FETCHING, isFetching} as const)
 
 export function UserReducer(state: inittype = initialState, action: ActionsTypes): inittype {
     switch (action.type) {
@@ -121,7 +128,10 @@ export function UserReducer(state: inittype = initialState, action: ActionsTypes
             return {
                 ...state,totalCount:action.count
             }
-
+        case "TOOGLEISFETCHING":{
+            return {...state,isFetching:action.isFetching
+            }
+        }
 
         default:
             return state;
