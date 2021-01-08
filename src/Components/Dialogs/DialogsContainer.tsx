@@ -54,7 +54,6 @@ const MSTP = (state: RootState) => ({
     messages: state.dialogsPage.messages,
     NewDialogMessage: state.dialogsPage.NewDialogMessage
 })
-
 const MDTP = (dispatch: any) => ({
     onclickHandler: () => {
         dispatch(AddMessageTypeAC())

@@ -24,26 +24,6 @@ type MSTPType={
 }
 type ComonPropsType=RouteComponentProps<PathParamsType> & ProfilePropsType
 
-/*class  ProfileContainer extends React.Component<ComonPropsType, any> {
-    componentDidMount(){
-        let userId=props.match.params.userId
-        Axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+userId)
-
-            .then((res) => {
-                //isFetching setToogle
-                this.props.setUserProfile(res.data)
-
-            })
-    }
-    render() {
-
-        return <div className={s.content}>
-            <Profile {...this.props} profile={this.props.profile}/>
-
-        </div>
-
-    }
-}*/
 
 function ProfileContainer(props:ComonPropsType) {
 

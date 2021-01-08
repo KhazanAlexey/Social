@@ -27,15 +27,7 @@ export function DialogsHook(props: any) {
 const currentPage=useSelector<RootState,number>(state=> state.usersPage.currentPage)
     const pageSize=useSelector<RootState,number>(state=> state.usersPage.pageSize)
 const users= useSelector<RootState,any>(state=> state.usersPage.users)
-   /* useEffect (()=>{
-        Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
-        .then(res => {
-            dispatch(SetUsersAC(res.data.items))
-            dispatch(setTotalCount(res.data.totalCount))
 
-        },[])
-
-    })*/
 
     let dialogsElements = dialogs.map(d =>
         <DialogItem name={d.name} id={d.id}/>
